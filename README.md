@@ -1,2 +1,2 @@
 # cpdetect
-Multiple change-point detection package
+A package for multiple change-point detection.
