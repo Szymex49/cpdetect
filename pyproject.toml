@@ -1,0 +1,20 @@
+[project]
+name = "cpdetect"
+version = "0.0.1"
+authors = [
+  { name="Szymon Malec", email="szymon.malec@o2.pl" },
+]
+description = "A package for multiple change-point detection."
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/Szymex49/cpdetect"
+Issues = "https://github.com/Szymex49/cpdetect/issues"
+Repository = "https://github.com/Szymex49/cpdetect"
