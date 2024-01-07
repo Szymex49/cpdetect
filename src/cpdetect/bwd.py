@@ -5,17 +5,15 @@
 import numpy as np
 import scipy.stats as sp
 
+from tools import dissim_idx, pooled_std
 
-
-def dissim_idx(G1, G2):
-    return abs(np.mean(G1) - np.mean(G2)) / np.sqrt(1/len(G1) + 1/len(G2))
 
 
 
 class BWD():
     """Backward detection"""
 
-    def __init__(self, model):
+    def __init__(self, model='normal mean'):
         if model not in ['normal mean']:
             raise ValueError('No such model.')
         self.model = model
@@ -88,3 +86,4 @@ class BWD():
             self.change_points = np.cumsum(list(map(len, Gs)))[:-1]
 
         return self.change_points
+

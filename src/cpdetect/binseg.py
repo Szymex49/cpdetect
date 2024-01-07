@@ -4,53 +4,8 @@
 import numpy as np
 import pandas as pd
 
+from tools import quantile, bootstrap, calculate_stats
 
-
-
-def calculate_stats(series, stat, sigma):
-    """Calculates statistic on given series."""
-
-    n = len(series)
-
-    if stat == 'Z':
-        if sigma == None:
-            raise ValueError('Parameter sigma is necessary to calculate Z.')
-        cumsum = np.cumsum(series)
-        cumsum_rev = np.cumsum(series[::-1])[::-1]
-        idx = np.arange(1, n)
-        stats = np.abs(cumsum[:-1] / idx - cumsum_rev[1:] / (n - idx)) / (sigma * np.sqrt(1/idx + 1/(n - idx)))
-
-    elif stat == 'T':
-        s1 = pd.Series(series).expanding().std().fillna(0).values
-        s2 = pd.Series(series[::-1]).expanding().std().fillna(0).values[::-1]
-        idx = np.arange(1, n)
-        sp = np.sqrt(((idx - 1) * s1[:-1]**2 + (idx[::-1] - 1) * s2[:-1]**2) / (n - 2))
-
-        cumsum = np.cumsum(series)
-        cumsum_rev = np.cumsum(series[::-1])[::-1]
-        stats = np.abs(cumsum[:-1] / idx - cumsum_rev[1:] / (n - idx)) / (sp * np.sqrt(1/idx + 1/(n - idx)))
-
-    return stats
-
-
-def quantile(prob, param, method, stat):
-    file = method + '_' + stat + '.csv'
-    df = pd.read_csv('data/' + file)
-    q = df['n' + str(param)][np.floor(prob * 1000)]    
-    return q
-
-
-def bootstrap(series, B):
-    n = len(series)
-    Ys = np.random.choice(series, size=(B, n), replace=True)
-
-    cumsum = np.cumsum(Ys, axis=1)
-    cumsum_rev = np.cumsum(Ys[:, ::-1], axis=1)[:, ::-1]
-    idx = np.arange(1, n)
-    Zj = np.abs(cumsum[:, :-1] / idx - cumsum_rev[:, 1:] / (n - idx)) / np.sqrt(1/idx + 1/(n - idx))
-    stat_max = np.max(Zj, axis=1)
-
-    return stat_max
 
 
 
@@ -78,11 +33,16 @@ class BinSeg():
         first_indexes.append(1)
 
         if bootstrap_samples:
-            quant = lambda Y: np.percentile(bootstrap(Y, bootstrap_samples), 100 * (1 - alpha))
+            quant = lambda Y: np.percentile(bootstrap(Y, bootstrap_samples, 'binseg'), 100 * (1 - alpha))
             calc_stats = lambda Y: calculate_stats(Y, stat='Z', sigma=1)
         else:
             quant = lambda Y: quantile(1 - alpha, len(Y), 'binseg', self.stat)
             calc_stats = lambda Y: calculate_stats(Y, stat=self.stat, sigma=self.sigma)
+        
+        if self.stat == 'Z':
+            min_interval_len = 3
+        elif self.stat == 'T':
+            min_interval_len = 4
 
         while len(intervals) > 0:
             Y = intervals[0]
@@ -90,22 +50,22 @@ class BinSeg():
 
             stats = calc_stats(Y)
             stat_max = max(stats)
-            j_ = np.argmax(stats) + 1
+            j_max = np.argmax(stats) + 1
 
             q = quant(Y)
             if stat_max > q:
-                js.append(first_index + j_)
+                js.append(first_index + j_max - 1)
 
-                if len(Y[:j_]) > 2:
-                    intervals.append(Y[:j_])
+                if len(Y[:j_max]) >= min_interval_len:
+                    intervals.append(Y[:j_max])
                     first_indexes.append(first_index)
 
-                if len(Y[j_:]) > 2:
-                    intervals.append(Y[j_:])
-                    first_indexes.append(first_index + j_)
+                if len(Y[j_max:]) >= min_interval_len:
+                    intervals.append(Y[j_max:])
+                    first_indexes.append(first_index + j_max)
 
             intervals.pop(0)
             first_indexes.pop(0)
-
+        
         self.change_points = sorted(js)
         return self.change_points

@@ -3,18 +3,8 @@
 import numpy as np
 import pandas as pd
 
+from tools import bootstrap, quantile
 
-
-def bootstrap(series, B, h):
-    sample = []
-    while len(sample) < B:
-        Y = np.random.choice(series, size=100000, replace=True)
-        S = pd.Series(Y).rolling(h).sum().dropna()
-        Ds = np.abs((S.shift(-h) - S) / h).dropna().values
-        Ds_max = pd.Series(Ds).rolling(2*h - 1).max().dropna().reset_index(drop=True).values
-        local_max = Ds_max == Ds[h-1:len(Ds)-h+1]
-        sample.extend(Ds_max[local_max]) 
-    return sample
 
 
 class SaRa():
@@ -38,7 +28,7 @@ class SaRa():
         sigma = self.sigma
 
         if bootstrap_samples:
-            sample = bootstrap(self.series, bootstrap_samples, h)
+            sample = bootstrap(self.series, bootstrap_samples, 'sara', h)
             q = np.percentile(sample, 100 * (1 - alpha))
             statistic = 'Z'
             sigma = 1
@@ -50,7 +40,7 @@ class SaRa():
             Ds = np.abs((S.shift(-h) - S) / h).dropna().values
             Ds = np.hstack((np.zeros(h-1), Ds/sigma, np.zeros(h-1)))
 
-            Ds_max = pd.Series(Ds).rolling(2*h - 1).max().dropna().reset_index(drop=True).values
+            Ds_max = pd.Series(Ds).rolling(2*h - 1).max().dropna().values
             local_max = np.logical_and(Ds_max == Ds[h-1:n-h], Ds_max > q)
 
             self.stat_values = Ds
@@ -59,13 +49,13 @@ class SaRa():
         elif statistic == 'T':
             s1 = pd.Series(self.series).rolling(h).std().dropna()
             s2 = s1.shift(-h)
-            sp = np.sqrt((s1**2 + s2**2)/2).dropna().values
+            s_p = np.sqrt((s1**2 + s2**2)/2).dropna().values
 
             S = pd.Series(self.series).rolling(h).sum().dropna()
             Ds = np.abs((S.shift(-h) - S) / h).dropna().values
-            Ds = np.hstack((np.zeros(h-1), Ds/sp, np.zeros(h-1)))
+            Ds = np.hstack((np.zeros(h-1), Ds/s_p, np.zeros(h-1)))
 
-            Ds_max = pd.Series(Ds).rolling(2*h - 1).max().dropna().reset_index(drop=True).values
+            Ds_max = pd.Series(Ds).rolling(2*h - 1).max().dropna().values
             local_max = np.logical_and(Ds_max == Ds[h-1:n-h], Ds_max > q)
 
             self.stat_values = Ds
