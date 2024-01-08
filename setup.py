@@ -10,8 +10,9 @@ setup(
     long_description=long_description,
     author='Szymon Malec',
     author_email='szymon.malec@o2.pl',
-    url='"https://github.com/Szymex49/cpdetect"',
+    url="https://github.com/Szymex49/cpdetect",
     license='GPLv3',
+    package_dir={'': 'src'},
     packages=find_packages(),
     package_data={'': ['binseg/quantiles/Z.csv', 'binseg/quantiles/T.csv', 'sara/quantiles/Z.csv', 'sara/quantiles/T.csv']},
     include_package_data=True,
@@ -19,7 +20,7 @@ setup(
     python_requires='>=3.8',
     classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Operating System :: OS Independent",
     ]
 )
