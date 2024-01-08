@@ -15,7 +15,7 @@ setup(
     license='GPLv3',
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
-    #package_data={'binseg.quantiles': ['binseg_Z.csv', 'binseg_T.csv'], 'sara.quantiles': ['sara_Z.csv', 'sara_T.csv']},
+    package_data={"cpdetect": ["binseg/quantiles/binseg_Z.csv", "binseg/quantiles/binseg_T.csv", "sara/quantiles/sara_Z.csv", "sara/quantiles/sara_T.csv"]},
     include_package_data=True,
     install_requires=['numpy', 'scipy', 'pandas'],
     python_requires='>=3.8',
