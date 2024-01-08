@@ -8,6 +8,7 @@ setup(
     version='0.0.1',
     description='A package containing multiple change-point detection methods for normal mean model (mean shift detection).',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Szymon Malec',
     author_email='szymon.malec@o2.pl',
     url="https://github.com/Szymex49/cpdetect",
