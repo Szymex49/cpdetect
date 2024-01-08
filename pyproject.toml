@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = [
   { name="Szymon Malec", email="szymon.malec@o2.pl" },
 ]
-description = "A package for multiple change-point detection."
+description = "A package containing multiple change-point detection methods for normal mean model (mean shift detection)."
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.8"
