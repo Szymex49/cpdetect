@@ -1,4 +1,4 @@
-from binseg.binseg import BinSeg
-from bwd.bwd import BWD
-from sara.sara import SaRa
+from .binseg.binseg import BinSeg
+from .bwd.bwd import BWD
+from .sara.sara import SaRa
 
