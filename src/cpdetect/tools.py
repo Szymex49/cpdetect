@@ -65,7 +65,7 @@ def quantile(prob, param, method, stat):
 
 
 
-def bootstrap(series, B, method, param):
+def bootstrap(series, B, method, param=None):
 
     if method == 'binseg':
         n = len(series)

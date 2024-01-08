@@ -3,6 +3,7 @@
 
 import numpy as np
 import pandas as pd
+from typing import Iterable
 
 from tools import quantile, bootstrap, calculate_stats
 
@@ -12,12 +13,10 @@ from tools import quantile, bootstrap, calculate_stats
 class BinSeg():
     """Binary segmentation"""
 
-    def __init__(self, model='normal mean'):
-        if model not in ['normal mean']:
-            raise ValueError('No such model.')
-        self.model = model
+    def __init__(self):
+        return
     
-    def fit(self, series, stat='Z', sigma=1):
+    def fit(self, series:Iterable, stat='Z', sigma=1):
         self.series = series
         self.size = len(series)
         self.stat = stat

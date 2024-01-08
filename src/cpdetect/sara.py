@@ -10,10 +10,8 @@ from tools import bootstrap, quantile
 class SaRa():
     """Screening and Ranking algorithm"""
 
-    def __init__(self, model='normal mean'):
-        if model not in ['normal mean']:
-            raise ValueError('No such model.')
-        self.model = model
+    def __init__(self):
+        return
     
     def fit(self, series, stat='Z', sigma=1):
         self.series = series
