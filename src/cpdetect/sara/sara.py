@@ -25,6 +25,9 @@ class SaRa():
         statistic = self.stat
         sigma = self.sigma
 
+        if h > n:
+            raise ValueError("Parameter h can't be greater than series length.")
+
         if bootstrap_samples:
             sample = bootstrap(self.series, bootstrap_samples, h)
             q = np.percentile(sample, 100 * (1 - alpha))
