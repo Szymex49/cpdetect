@@ -34,7 +34,7 @@ Y4 = sp.norm.rvs(3, 2, 200)
 Y = np.hstack((Y1, Y2, Y3, Y4))
 plt.plot(Y)
 ```
-<img src="./images/mean_shift_example.png" width="600">
+<img src="./images/mean_shift_example.jpg" width="500">
 
 To find the change-points location we can use `BinSeg` which contains binary segmentation implementation.
 ```python
@@ -48,7 +48,7 @@ plt.plot(bs.stat_values)      # statistic plot
 
 bs.predict(0.01)              # change-point detection
 ```
-<img src="./images/bs_Z_plot.png" width="600">
+<img src="./images/bs_Z_plot.jpg" width="500">
 
 If we don't know what the standard deviation (`sigma`) is, we can use T statistic.
 ```python
@@ -58,7 +58,7 @@ plt.plot(bs.stat_values)   # statistic plot
 
 bs.predict(0.01)           # change-point detection
 ```
-<img src="./images/bs_T_plot.png" width="600">
+<img src="./images/bs_T_plot.jpg" width="500">
 
 If we don't know the distribution of time series values, we can't use "normal mean" models. Then we can use bootstrap which finds the statistic distribution by itself.
 ```python
