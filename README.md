@@ -5,7 +5,7 @@
 [![Downloads](https://static.pepy.tech/badge/cpdetect)](https://pepy.tech/project/cpdetect)
 
 
-**cpdetect** is a python package designed for change point-detection using statistical methods. This is a first version and considers only one change-point model which is "normal mean" model. This assumes normally distributed time series values and changes only in the mean (mean shift). The package offers three detection methods which are Binary Segmentation (BS), Backward Detection (BWD) and Screening and Ranking algorithm (SaRa).
+**cpdetect** is a python package designed for change point-detection using statistical methods. This is a first version and considers only one change-point model which is normal mean model. This assumes normally distributed time series values and changes only in the mean (mean shift). The package offers three detection methods which are Binary Segmentation (BS), Backward Detection (BWD) and Screening and Ranking algorithm (SaRa).
 
 
 ## Install
@@ -60,7 +60,7 @@ bs.predict(0.01)           # change-point detection
 ```
 <img src="./images/bs_T_plot.jpg" width="500">
 
-If we don't know the distribution of time series values, we can't use "normal mean" models. Then we can use bootstrap which finds the statistic distribution by itself.
+If we don't know the distribution of time series values, we can't use normal mean models. Then we can use bootstrap which finds the statistic distribution by itself.
 ```python
 bs.predict(0.01, bootstrap_samples=1000)
 ```
