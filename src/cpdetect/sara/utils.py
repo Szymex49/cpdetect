@@ -1,3 +1,4 @@
+"""Functions used in Screening and Ranking algorithm."""
 
 import numpy as np
 import pandas as pd
@@ -5,9 +6,9 @@ import pkg_resources
 
 
 
-
-
 def quantile(prob, param, stat):
+    """Retrieve a quantile of a specified order (`prob`) from the csv files."""
+
     path = 'quantiles/sara_' + stat + '.csv'
     stream = pkg_resources.resource_stream(__name__, path)
     df = pd.read_csv(stream)
@@ -17,6 +18,8 @@ def quantile(prob, param, stat):
 
 
 def bootstrap(series, B, param=None):
+    """Compute B values of the test statistic from B samples generated with bootstrap."""
+    
     h = param
     sample = []
     while len(sample) < B:

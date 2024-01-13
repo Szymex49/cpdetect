@@ -1,3 +1,4 @@
+"""Functions used in binary segmentation."""
 
 import numpy as np
 import pandas as pd
@@ -5,10 +6,8 @@ import pkg_resources
 
 
 
-
-
 def calculate_stats(series, stat, sigma):
-    """Calculates statistic on given series."""
+    """Compute statistic along the given series."""
 
     n = len(series)
 
@@ -33,6 +32,8 @@ def calculate_stats(series, stat, sigma):
 
 
 def quantile(prob, param, stat):
+    """Retrieve a quantile of a specified order (`prob`) from the csv files."""
+
     path = 'quantiles/binseg_' + stat + '.csv'
     stream = pkg_resources.resource_stream(__name__, path)
     df = pd.read_csv(stream)
@@ -42,6 +43,7 @@ def quantile(prob, param, stat):
 
 
 def bootstrap(series, B):
+    """Compute B values of the test statistic from B samples generated with bootstrap."""
 
     n = len(series)
     Ys = np.random.choice(series, size=(B, n), replace=True)

@@ -1,7 +1,9 @@
+"""Screening and Ranking algorithm"""
 
 
 import numpy as np
 import pandas as pd
+from typing import Iterable
 
 from .utils import bootstrap, quantile
 
@@ -13,14 +15,49 @@ class SaRa():
     def __init__(self):
         return
     
-    def fit(self, series, stat='Z', sigma=1):
+
+    def fit(
+        self,
+        series: Iterable,
+        stat: str = 'Z',
+        sigma: float = 1
+    ):
+        """Fit the model to the data.
+
+        Args:
+            series (Iterable): time series to be analyzed, must be one-dimensional
+            stat (str): statistic used for tests on change-point ("Z" or "T")
+            sigma (float): theoretical standard deviation of time series values (only required when Z statistic was chosen)
+
+        Returns:
+            self
+        """
+
         self.series = series
         self.size = len(series)
         self.stat = stat
         self.sigma = sigma
         return self
 
-    def predict(self, h, alpha, bootstrap_samples=None):
+
+    def predict(
+        self,
+        h: int,
+        alpha: float,
+        bootstrap_samples: int = None
+    ) -> np.ndarray:
+        
+        """Detect change-points along the series.
+
+        Args:
+            h (int): SaRa h parameter where 2h is a window size
+            alpha (float): significance level of a change-point test
+            bootstrap_samples (int): size of a test statistic sample which is generated with bootstrap, used for computing 1 - alpha quantile of the test statistic distribution
+
+        Returns:
+            array: vector of change-points
+        """
+        
         n = self.size
         statistic = self.stat
         sigma = self.sigma

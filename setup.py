@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='cpdetect',
-    version='0.0.1',
+    version='0.0.2',
     description='A package containing multiple change-point detection methods for normal mean model (mean shift detection).',
     long_description=long_description,
     long_description_content_type='text/markdown',

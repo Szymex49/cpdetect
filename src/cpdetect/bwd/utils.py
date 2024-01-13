@@ -1,3 +1,4 @@
+"""Functions used in backward detection."""
 
 import numpy as np
 
@@ -17,6 +18,7 @@ def std(X, axis=0):
 
 
 def pooled_std(X1, X2):
+    """Calculate pooled standard deviation."""
     SD1 = std(X1)
     SD2 = std(X2)
     n1 = np.size(X1)
@@ -26,5 +28,6 @@ def pooled_std(X1, X2):
 
 
 def dissim_idx(G1, G2):
+    """Compute dissimilarity index between G1 and G2."""
     return abs(np.mean(G1) - np.mean(G2)) / np.sqrt(1/len(G1) + 1/len(G2))
 

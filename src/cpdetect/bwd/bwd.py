@@ -1,11 +1,11 @@
+"""Backward detection"""
 
 
 import numpy as np
 import scipy.stats as sp
-
+from typing import Iterable
 
 from .utils import dissim_idx, pooled_std
-
 
 
 
@@ -15,14 +15,43 @@ class BWD():
     def __init__(self):
         return
     
-    def fit(self, series, stat='Z', sigma=1):
+
+    def fit(
+        self,
+        series: Iterable,
+        stat: str = 'Z',
+        sigma: float = 1
+    ):
+        """Fit the model to the data.
+
+        Args:
+            series (Iterable): time series to be analyzed, must be one-dimensional
+            stat (str): statistic used for tests on equal means between segments ("Z" or "T")
+            sigma (float): theoretical standard deviation of time series values (only required when Z statistic was chosen)
+
+        Returns:
+            self
+        """
+
         self.series = series
         self.stat = stat
         self.sigma = sigma
         return self
     
-    def predict(self, alpha):
-        """Predict"""
+
+    def predict(
+        self,
+        alpha: float
+    ) -> np.ndarray:
+        
+        """Detect change-points along the series.
+
+        Args:
+            alpha (float): significance level of a test for equal means between segments
+
+        Returns:
+            array: vector of change-points
+        """
 
         DIs = []
 
